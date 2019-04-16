@@ -17,13 +17,46 @@ public:
     void paintGL() override;
     void resizeGL(int w, int h) override;
 
+
+public slots:
+    void setXRotation(int angle);
+    void setYRotation(int angle);
+    void setZRotation(int angle);
+
 protected:
-    void timerEvent(QTimerEvent *event) override;
+//    void timerEvent(QTimerEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
-    QOpenGLShaderProgram    m_prog_triangle;
-    GLuint                  m_vao_triangle_id;
-    GLint                   m_transform_uni_id;
+    bool m_core;
+    int m_xRot;
+    int m_yRot;
+    int m_zRot;
+    QPoint m_lastPos;
+
+    // Shader programms
+    QOpenGLShaderProgram m_prog_container;
+    QOpenGLShaderProgram m_prog_triangle;
+
+    // VAOs
+    GLuint m_vao_container_id;
+    GLuint m_vao_triangle_id;
+
+    // Textures
+    GLuint m_texture_bg_id;
+    GLuint m_texture_smile_id;
+
+    // Uniforms
+    GLint  m_triangle_color_id;
+
+    QVector3D camera_pos;
+    QVector3D camera_up;
+    QVector3D camera_front;
+
+    QTime frame_delta_time;
+    QTime last_frame_time;
 };
 
 #endif // WIDGET_H
